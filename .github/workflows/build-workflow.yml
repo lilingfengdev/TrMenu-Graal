@@ -13,6 +13,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: gradle/gradle-build-action@v2
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Gradle Build
         run: ./gradlew build
       - name: Auto release
