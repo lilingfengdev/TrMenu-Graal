@@ -1,0 +1,4 @@
+name: TrMenu-Graal
+main: io.lilingfeng.trmenu.graal.TrMenuGraal
+version: "${version}"
+api-version: "${apiVersion}"
