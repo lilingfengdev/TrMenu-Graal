@@ -1,10 +1,6 @@
 name: Build
 on:
-  workflow_call:
-    outputs:
-      version:
-        description: Built version
-        value: ${{ jobs.build.outputs.version }}
+  [push]
 
 jobs:
   build:
@@ -19,13 +15,11 @@ jobs:
       - uses: gradle/gradle-build-action@v2
       - name: Gradle Build
         run: ./gradlew build
-      - name: Get Version
-        id: version
-        run: echo "version=$(./gradlew --console plain --quiet currentVersion -Prelease.quiet)" >> $GITHUB_OUTPUT
-      - name: Upload build
-        uses: actions/upload-artifact@v3
+      - name: Auto release
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          name: build
-          path: build/libs/*.jar
-          retention-days: 7
-          if-no-files-found: error
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: latest
+          prerelease: true
+          files: |
+            build/libs/*-all.jar
